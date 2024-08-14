@@ -1,21 +1,32 @@
 package com.example.apitesttasktrackmailshipment.model;
 
 import com.example.apitesttasktrackmailshipment.model.enums.Type;
+import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "postal_items")
 public class PostalItems {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
+    @Enumerated(EnumType.STRING)
     private Type type;
     private int indexRecipient ;
     private String addressRecipient;
-    private String status;
 
-    public PostalItems(Long id, String name, Type type, int indexRecipient, String addressRecipient, String status) {
-        this.id = id;
+   @OneToMany(mappedBy = "postalItems")
+    private List<Status> status;
+
+    private static long postalItemsId = 1;
+
+    public PostalItems(String name, Type type, int indexRecipient, String addressRecipient, List<Status> status) {
+        setId(postalItemsId++);
         this.name = name;
         this.type = type;
         this.indexRecipient = indexRecipient;
@@ -23,8 +34,15 @@ public class PostalItems {
         this.status = status;
     }
 
+    public PostalItems() {
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -43,11 +61,31 @@ public class PostalItems {
         return addressRecipient;
     }
 
-    public String getStatus() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setIndexRecipient(int indexRecipient) {
+        this.indexRecipient = indexRecipient;
+    }
+
+    public void setAddressRecipient(String addressRecipient) {
+        this.addressRecipient = addressRecipient;
+    }
+
+    public static void setPostalItemsId(long postalItemsId) {
+        PostalItems.postalItemsId = postalItemsId;
+    }
+
+    public List<Status> getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(List<Status> status) {
         this.status = status;
     }
 
@@ -72,7 +110,7 @@ public class PostalItems {
                 ", type=" + type +
                 ", indexRecipient=" + indexRecipient +
                 ", addressRecipient='" + addressRecipient + '\'' +
-                ", status='" + status + '\'' +
+//                ", status='" + status + '\'' +
                 '}';
     }
 }
