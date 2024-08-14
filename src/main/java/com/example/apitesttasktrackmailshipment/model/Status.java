@@ -1,12 +1,37 @@
 package com.example.apitesttasktrackmailshipment.model;
 
-import java.util.Objects;
+import jakarta.persistence.*;
 
+import java.util.Objects;
+@Entity
+@Table(name = "status")
 public class Status {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String statusPostalItems;
 
-    public Status(String statusPostalItems) {
+    @ManyToOne
+    @JoinColumn(name = "postal_items_id")
+    private PostalItems postalItems;
+
+    private static long statusId = 1;
+
+    public Status(String statusPostalItems, PostalItems postalItems) {
+        setId(statusId++);
         this.statusPostalItems = statusPostalItems;
+        this.postalItems = postalItems;
+    }
+
+    public Status() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getStatusPostalItems() {
