@@ -34,3 +34,4 @@ build/
 /pom.xml
 /mvnw
 /mvnw.cmd
+/.mvn/wrapper/maven-wrapper.properties
