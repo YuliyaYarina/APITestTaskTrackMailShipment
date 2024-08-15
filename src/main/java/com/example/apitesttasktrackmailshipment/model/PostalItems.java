@@ -21,17 +21,17 @@ public class PostalItems {
     private String addressRecipient;
 
    @OneToMany(mappedBy = "postalItems")
-    private List<Status> status;
+    private List<Transactions> transactions;
 
     private static long postalItemsId = 1;
 
-    public PostalItems(String name, Type type, int indexRecipient, String addressRecipient, List<Status> status) {
-        setId(postalItemsId++);
+    public PostalItems(String name, Type type, int indexRecipient, String addressRecipient, List<Transactions> status) {
+//        setId(postalItemsId++);
         this.name = name;
         this.type = type;
         this.indexRecipient = indexRecipient;
         this.addressRecipient = addressRecipient;
-        this.status = status;
+        this.transactions = status;
     }
 
     public PostalItems() {
@@ -77,16 +77,12 @@ public class PostalItems {
         this.addressRecipient = addressRecipient;
     }
 
-    public static void setPostalItemsId(long postalItemsId) {
-        PostalItems.postalItemsId = postalItemsId;
+    public List<Transactions> getTransactions() {
+        return transactions;
     }
 
-    public List<Status> getStatus() {
-        return status;
-    }
-
-    public void setStatus(List<Status> status) {
-        this.status = status;
+    public void setTransactions(List<Transactions> transactions) {
+        this.transactions = transactions;
     }
 
     @Override
@@ -110,7 +106,7 @@ public class PostalItems {
                 ", type=" + type +
                 ", indexRecipient=" + indexRecipient +
                 ", addressRecipient='" + addressRecipient + '\'' +
-//                ", status='" + status + '\'' +
+                ", transactions=" + transactions +
                 '}';
     }
 }

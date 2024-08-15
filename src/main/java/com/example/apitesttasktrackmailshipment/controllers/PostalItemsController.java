@@ -2,7 +2,7 @@ package com.example.apitesttasktrackmailshipment.controllers;
 
 import com.example.apitesttasktrackmailshipment.model.PostOffice;
 import com.example.apitesttasktrackmailshipment.model.PostalItems;
-import com.example.apitesttasktrackmailshipment.model.Status;
+import com.example.apitesttasktrackmailshipment.model.Transactions;
 import com.example.apitesttasktrackmailshipment.model.enums.Type;
 import com.example.apitesttasktrackmailshipment.service.PostalItemsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,13 +26,13 @@ public class PostalItemsController {
                                                                     @RequestParam(name = "тип отправления") Type type,
                                                                     @RequestParam(name = "индекс получателя") int indexRecipient,
                                                                     @RequestParam(name = "адрес получателя") String addressRecipient,
-                                                                    @RequestParam(name = "статус") List<Status> statuses){
+                                                                    @RequestParam(name = "статус") List<Transactions> statuses){
         PostalItems postalItems = new PostalItems();
         postalItems.setName(name);
         postalItems.setType(type);
         postalItems.setIndexRecipient(indexRecipient);
         postalItems.setAddressRecipient(addressRecipient);
-        postalItems.setStatus(statuses);
+        postalItems.setTransactions(statuses);
          return ResponseEntity.ok(service.registration(postalItems));
     }
 
@@ -43,7 +43,7 @@ public class PostalItemsController {
     @PutMapping
     public ResponseEntity<String> arrivalIntermediatePostOffice(@RequestParam(name = "идентификатор почтового отправления") Long id,
                                                                 @RequestParam(name = "идентификатор почтового отправления") PostOffice postOffice,
-                                                                @RequestParam(name = "идентификатор почтового отправления") Status status){
+                                                                @RequestParam(name = "идентификатор почтового отправления") Transactions status){
         return ResponseEntity.ok(service.arrivalIntermediatePostOffice(id, postOffice, status));
     }
 
