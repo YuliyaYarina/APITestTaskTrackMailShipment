@@ -1,6 +1,6 @@
 package com.example.apitesttasktrackmailshipment.model.enums;
 
-public enum Type {
+public enum Type{
     LETTER,
     PACKAGE,
     PARCEL,
