@@ -1,5 +1,6 @@
 package com.example.apitesttasktrackmailshipment.model;
 
+import com.example.apitesttasktrackmailshipment.model.enums.Status;
 import com.example.apitesttasktrackmailshipment.model.enums.Type;
 import jakarta.persistence.*;
 
@@ -20,18 +21,22 @@ public class PostalItems {
     private int indexRecipient ;
     private String addressRecipient;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
    @OneToMany(mappedBy = "postalItems")
-    private List<Status> status;
+    private List<Transactions> transactions;
 
     private static long postalItemsId = 1;
 
-    public PostalItems(String name, Type type, int indexRecipient, String addressRecipient, List<Status> status) {
-        setId(postalItemsId++);
+    public PostalItems(String name, Type type, int indexRecipient, String addressRecipient, Status status, List<Transactions> transactions) {
+//        setId(postalItemsId++);
         this.name = name;
         this.type = type;
         this.indexRecipient = indexRecipient;
         this.addressRecipient = addressRecipient;
         this.status = status;
+        this.transactions = transactions;
     }
 
     public PostalItems() {
@@ -77,16 +82,12 @@ public class PostalItems {
         this.addressRecipient = addressRecipient;
     }
 
-    public static void setPostalItemsId(long postalItemsId) {
-        PostalItems.postalItemsId = postalItemsId;
+    public List<Transactions> getTransactions() {
+        return transactions;
     }
 
-    public List<Status> getStatus() {
-        return status;
-    }
-
-    public void setStatus(List<Status> status) {
-        this.status = status;
+    public void setTransactions(List<Transactions> transactions) {
+        this.transactions = transactions;
     }
 
     @Override
@@ -110,7 +111,8 @@ public class PostalItems {
                 ", type=" + type +
                 ", indexRecipient=" + indexRecipient +
                 ", addressRecipient='" + addressRecipient + '\'' +
-//                ", status='" + status + '\'' +
+                ", status=" + status +
+                ", transactions=" + transactions +
                 '}';
     }
 }

@@ -1,10 +1,8 @@
 package com.example.apitesttasktrackmailshipment.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 @Entity
 public class PostOffice {
@@ -16,10 +14,13 @@ public class PostOffice {
     private String name;
     private String address;
 
+    @OneToMany(mappedBy = "postOffice")
+    private List<Transactions> transactions;
+
     private static long postOfficeId = 1;
 
     public PostOffice(int index, String name, String address) {
-        setId(postOfficeId++);
+//        setId(postOfficeId++);
         this.index = index;
         this.name = name;
         this.address = address;
@@ -60,6 +61,22 @@ public class PostOffice {
         this.address = address;
     }
 
+    public List<Transactions> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transactions> transactions) {
+        this.transactions = transactions;
+    }
+
+    public static long getPostOfficeId() {
+        return postOfficeId;
+    }
+
+    public static void setPostOfficeId(long postOfficeId) {
+        PostOffice.postOfficeId = postOfficeId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,6 +97,7 @@ public class PostOffice {
                 ", index=" + index +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
+                ", transactions=" + transactions +
                 '}';
     }
 }
