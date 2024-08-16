@@ -1,5 +1,6 @@
 package com.example.apitesttasktrackmailshipment.model;
 
+import com.example.apitesttasktrackmailshipment.model.enums.Status;
 import com.example.apitesttasktrackmailshipment.model.enums.Type;
 import jakarta.persistence.*;
 
@@ -20,18 +21,22 @@ public class PostalItems {
     private int indexRecipient ;
     private String addressRecipient;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
    @OneToMany(mappedBy = "postalItems")
     private List<Transactions> transactions;
 
     private static long postalItemsId = 1;
 
-    public PostalItems(String name, Type type, int indexRecipient, String addressRecipient, List<Transactions> status) {
+    public PostalItems(String name, Type type, int indexRecipient, String addressRecipient, Status status, List<Transactions> transactions) {
 //        setId(postalItemsId++);
         this.name = name;
         this.type = type;
         this.indexRecipient = indexRecipient;
         this.addressRecipient = addressRecipient;
-        this.transactions = status;
+        this.status = status;
+        this.transactions = transactions;
     }
 
     public PostalItems() {
@@ -106,6 +111,7 @@ public class PostalItems {
                 ", type=" + type +
                 ", indexRecipient=" + indexRecipient +
                 ", addressRecipient='" + addressRecipient + '\'' +
+                ", status=" + status +
                 ", transactions=" + transactions +
                 '}';
     }
