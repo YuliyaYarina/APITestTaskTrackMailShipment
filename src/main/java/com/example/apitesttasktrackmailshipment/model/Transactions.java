@@ -2,20 +2,23 @@ package com.example.apitesttasktrackmailshipment.model;
 
 import com.example.apitesttasktrackmailshipment.model.enums.Status;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-@Table(name = "transactions")
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private ZonedDateTime time;
+
+    @CreationTimestamp(source = SourceType.DB)
+    private Instant time;
 
     @ManyToOne
-    @JoinColumn(name = "postal_office_id")
+    @JoinColumn(name = "post_office_id")
     private PostOffice postOffice;
 
     @Enumerated(EnumType.STRING)
@@ -27,7 +30,7 @@ public class Transactions {
 
     private static long transactionsId = 1;
 
-    public Transactions( ZonedDateTime time, PostOffice postOffice, Status status, PostalItems postalItems) {
+    public Transactions( Instant time, PostOffice postOffice, Status status, PostalItems postalItems) {
         setId(transactionsId);
         this.time = time;
         this.postOffice = postOffice;
@@ -62,12 +65,8 @@ public class Transactions {
         this.postalItems = postalItems;
     }
 
-    public ZonedDateTime getTime() {
+    public Instant getTime() {
         return time;
-    }
-
-    public void setTime(ZonedDateTime time) {
-        this.time = time;
     }
 
     public Status getStatus() {

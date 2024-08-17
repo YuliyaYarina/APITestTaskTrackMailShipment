@@ -3,19 +3,28 @@ package com.example.apitesttasktrackmailshipment.controllers;
 import com.example.apitesttasktrackmailshipment.model.PostOffice;
 import com.example.apitesttasktrackmailshipment.model.PostalItems;
 import com.example.apitesttasktrackmailshipment.model.Transactions;
+import com.example.apitesttasktrackmailshipment.model.enums.Status;
 import com.example.apitesttasktrackmailshipment.model.enums.Type;
+import com.example.apitesttasktrackmailshipment.service.PostOfficeService;
 import com.example.apitesttasktrackmailshipment.service.PostalItemsService;
+import com.example.apitesttasktrackmailshipment.service.TransactionsService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("postalItems")
 @RestController
 public class PostalItemsController {
 
     private PostalItemsService service;
+    private TransactionsService transactionsService;
+    private PostOfficeService officeService;
+
+    public PostalItemsController(PostalItemsService service, PostOfficeService officeService, TransactionsService transactionsService) {
+        this.service = service;
+        this.transactionsService = transactionsService;
+        this.officeService = officeService;
+    }
 
     @Operation(
             summary = "Регистрация почтового отправлении",
@@ -26,14 +35,20 @@ public class PostalItemsController {
                                                                     @RequestParam(name = "тип отправления") Type type,
                                                                     @RequestParam(name = "индекс получателя") int indexRecipient,
                                                                     @RequestParam(name = "адрес получателя") String addressRecipient,
-                                                                    @RequestParam(name = "статус") List<Transactions> statuses){
+                                                                    @RequestParam(name = "название почтового отделения, получаемое посылку") Long idPostOffice ){
         PostalItems postalItems = new PostalItems();
         postalItems.setName(name);
         postalItems.setType(type);
         postalItems.setIndexRecipient(indexRecipient);
         postalItems.setAddressRecipient(addressRecipient);
-        postalItems.setTransactions(statuses);
-         return ResponseEntity.ok(service.registration(postalItems));
+        service.add(postalItems);
+
+        Transactions transactions = new Transactions();
+        transactions.setPostalItems(postalItems);
+        transactionsService.save(transactions);
+
+
+        return ResponseEntity.ok().build();
     }
 
     @Operation(
@@ -41,10 +56,11 @@ public class PostalItemsController {
             tags = "Операции с почтовым отправлением"
     )
     @PutMapping
-    public ResponseEntity<String> arrivalIntermediatePostOffice(@RequestParam(name = "идентификатор почтового отправления") Long id,
-                                                                @RequestParam(name = "идентификатор почтового отправления") PostOffice postOffice,
-                                                                @RequestParam(name = "идентификатор почтового отправления") Transactions status){
-        return ResponseEntity.ok(service.arrivalIntermediatePostOffice(id, postOffice, status));
+    public String arrivalIntermediatePostOffice(@RequestParam(name = "идентификатор почты") Long idPostOffice,
+                                                                @RequestParam(name = "статус посылки") Status status,
+                                                                @RequestParam(name = "идентификатор почтового отправления") Long idPostalItems){
+//        return ResponseEntity.ok(transactionsService.arrivalIntermediatePostOffice(idPostOffice, status, idPostalItems);
+    return "ok";
     }
 
 //    @Operation(
