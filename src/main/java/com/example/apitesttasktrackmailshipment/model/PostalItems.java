@@ -27,6 +27,7 @@ public class PostalItems {
     private static long postalItemsId = 1;
 
     public PostalItems(String name, Type type, int indexRecipient, String addressRecipient,  List<Transactions> transactions) {
+        setId(postalItemsId++);
         this.name = name;
         this.type = type;
         this.indexRecipient = indexRecipient;

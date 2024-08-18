@@ -20,7 +20,7 @@ public class PostOffice {
     private static long postOfficeId = 1;
 
     public PostOffice(int index, String name, String address) {
-//        setId(postOfficeId++);
+        setId(postOfficeId++);
         this.index = index;
         this.name = name;
         this.address = address;
@@ -33,8 +33,9 @@ public class PostOffice {
         return id;
     }
 
-    public void setId(Long id) {
+    public Long setId(Long id) {
         this.id = id;
+        return id;
     }
 
     public int getIndex() {
@@ -49,8 +50,8 @@ public class PostOffice {
         return address;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setIndex(int postIdex) {
+        this.index = postIdex;
     }
 
     public void setName(String name) {

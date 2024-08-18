@@ -31,17 +31,16 @@ public class PostOfficeController {
         postOff.setName(name);
         postOff.setAddress(address);
 
-      return ResponseEntity.ok(service.addPostOffice(postOff));
+      return ResponseEntity.ok(service.save(postOff));
     }
 
     @Operation(
             summary = "Удалить почтовое отделение",
             tags = "Почтовое отделение"
     )
-    @DeleteMapping("/id")
-    public String removePostOffice(@RequestParam(name = "идентификатор почтового отправления") Long id) {
-
-        return service.removePostOffice(id);
+    @DeleteMapping
+    public ResponseEntity<ResponseEntity<String>> removePostOffice(@RequestParam(name = "идентификатор почтового отправления") Long id) {
+        return ResponseEntity.ok(service.removePostOffice(id));
     }
 
     @Operation(
@@ -50,7 +49,7 @@ public class PostOfficeController {
     )
     @GetMapping
     public List<PostOffice> getAllPostOffice() {
-        return service.getAllPostOffice();
+        return service.findAll();
     }
 
 }
