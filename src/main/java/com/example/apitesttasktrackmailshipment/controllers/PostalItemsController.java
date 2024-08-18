@@ -1,6 +1,5 @@
 package com.example.apitesttasktrackmailshipment.controllers;
 
-import com.example.apitesttasktrackmailshipment.model.PostOffice;
 import com.example.apitesttasktrackmailshipment.model.PostalItems;
 import com.example.apitesttasktrackmailshipment.model.Transactions;
 import com.example.apitesttasktrackmailshipment.model.enums.Status;
@@ -17,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class PostalItemsController {
 
     private PostalItemsService service;
-    private TransactionsService transactionsService;
     private PostOfficeService officeService;
+    private TransactionsService transactionsService;
 
     public PostalItemsController(PostalItemsService service, PostOfficeService officeService, TransactionsService transactionsService) {
         this.service = service;
-        this.transactionsService = transactionsService;
         this.officeService = officeService;
+        this.transactionsService = transactionsService;
     }
 
     @Operation(
@@ -31,24 +30,27 @@ public class PostalItemsController {
             tags = "Операции с почтовым отправлением"
     )
     @PostMapping("/registration")
-    public ResponseEntity<ResponseEntity<PostalItems>> registration(@RequestParam(name = "имя получателя") String name,
-                                                                    @RequestParam(name = "тип отправления") Type type,
-                                                                    @RequestParam(name = "индекс получателя") int indexRecipient,
-                                                                    @RequestParam(name = "адрес получателя") String addressRecipient,
-                                                                    @RequestParam(name = "название почтового отделения, получаемое посылку") Long idPostOffice ){
+    public ResponseEntity<PostalItems> registration(@RequestParam(name = "имя получателя") String name,
+                                                    @RequestParam(name = "тип отправления") Type type,
+                                                    @RequestParam(name = "индекс получателя") int indexRecipient,
+                                                    @RequestParam(name = "адрес получателя") String addressRecipient,
+                                                    @RequestParam(name = "id почтового отделения, которое принимает посылку") Long idPostOffice ){
+
         PostalItems postalItems = new PostalItems();
         postalItems.setName(name);
         postalItems.setType(type);
         postalItems.setIndexRecipient(indexRecipient);
         postalItems.setAddressRecipient(addressRecipient);
-        service.add(postalItems);
+
+        service.save(postalItems);
 
         Transactions transactions = new Transactions();
         transactions.setPostalItems(postalItems);
+        transactions.setStatus(Status.REGISTRATION);
+        transactions.setPostOffice(officeService.findById(idPostOffice));
         transactionsService.save(transactions);
 
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(postalItems);
     }
 
     @Operation(
@@ -56,12 +58,21 @@ public class PostalItemsController {
             tags = "Операции с почтовым отправлением"
     )
     @PutMapping
-    public String arrivalIntermediatePostOffice(@RequestParam(name = "идентификатор почты") Long idPostOffice,
-                                                                @RequestParam(name = "статус посылки") Status status,
-                                                                @RequestParam(name = "идентификатор почтового отправления") Long idPostalItems){
-//        return ResponseEntity.ok(transactionsService.arrivalIntermediatePostOffice(idPostOffice, status, idPostalItems);
-    return "ok";
+    public ResponseEntity<Transactions> arrivalIntermediatePostOffice(@RequestParam(name = "идентификатор почты") Long idPostOffice,
+                                                                                      @RequestParam(name = "идентификатор почтового отправления") Long idPostalItems,
+                                                                                      @RequestParam(name = "статус посылки") Status status) {
+
+        Transactions transactions = new Transactions();
+        transactions.setPostOffice(officeService.findById(idPostOffice));
+        transactions.setPostalItems(service.findById(idPostalItems));
+        transactions.setStatus(status);
+
+        transactionsService.arrivalIntermediatePostOffice(transactions);
+
+        return ResponseEntity.ok().build();
     }
+
+
 
 //    @Operation(
 //            summary = "Прибытие в промежуточное почтовое отделение",

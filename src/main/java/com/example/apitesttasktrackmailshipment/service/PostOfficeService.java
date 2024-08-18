@@ -17,20 +17,23 @@ public class PostOfficeService {
         this.repository = repository;
     }
 
-    public String removePostOffice(Long id) {
+    public ResponseEntity<String> removePostOffice(Long id) {
        if (repository.findById(id).isPresent()){
            repository.deleteById(id);
-           return "Отделение успешно удалено";
+           return ResponseEntity.ok("Отделение успешно удалено");
        }
-        return "Такого отделения нет";
+        return ResponseEntity.ok("Такого отделения нет");
     }
 
-    public ResponseEntity<PostOffice> addPostOffice(PostOffice postOffice) {
-        repository.save(postOffice);
-        return ResponseEntity.ok(postOffice);
+    public ResponseEntity<PostOffice> save(PostOffice postOffice) {
+        return ResponseEntity.ok(repository.save(postOffice));
     }
 
-     public List<PostOffice> getAllPostOffice() {
+     public List<PostOffice> findAll() {
         return repository.findAll();
+    }
+
+    public PostOffice findById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 }

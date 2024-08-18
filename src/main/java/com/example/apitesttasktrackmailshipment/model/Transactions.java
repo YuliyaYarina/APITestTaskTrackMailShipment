@@ -31,7 +31,7 @@ public class Transactions {
     private static long transactionsId = 1;
 
     public Transactions( Instant time, PostOffice postOffice, Status status, PostalItems postalItems) {
-        setId(transactionsId);
+        setId(transactionsId++);
         this.time = time;
         this.postOffice = postOffice;
         this.status = status;
