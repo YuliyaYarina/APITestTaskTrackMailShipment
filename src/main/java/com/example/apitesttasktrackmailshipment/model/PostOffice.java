@@ -1,10 +1,13 @@
 package com.example.apitesttasktrackmailshipment.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;
 @Entity
+@Data
 public class PostOffice {
 
     @Id
@@ -15,6 +18,7 @@ public class PostOffice {
     private String address;
 
     @OneToMany(mappedBy = "postOffice")
+    @JsonIgnore
     private List<Transactions> transactions;
 
     private static long postOfficeId = 1;
@@ -91,14 +95,5 @@ public class PostOffice {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "PostOffice{" +
-                "id=" + id +
-                ", index=" + index +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", transactions=" + transactions +
-                '}';
-    }
+
 }

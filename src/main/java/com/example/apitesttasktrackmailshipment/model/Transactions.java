@@ -2,6 +2,7 @@ package com.example.apitesttasktrackmailshipment.model;
 
 import com.example.apitesttasktrackmailshipment.model.enums.Status;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
 
@@ -9,6 +10,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
+@Data
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +32,8 @@ public class Transactions {
 
     private static long transactionsId = 1;
 
-    public Transactions( Instant time, PostOffice postOffice, Status status, PostalItems postalItems) {
+    public Transactions(PostOffice postOffice, Status status, PostalItems postalItems) {
         setId(transactionsId++);
-        this.time = time;
         this.postOffice = postOffice;
         this.status = status;
         this.postalItems = postalItems;
@@ -69,6 +70,10 @@ public class Transactions {
         return time;
     }
 
+    public void setTime(Instant time) {
+        this.time = time;
+    }
+
     public Status getStatus() {
         return status;
     }
@@ -91,15 +96,6 @@ public class Transactions {
         return Objects.hash(time, postOffice, status, postalItems);
     }
 
-    @Override
-    public String toString() {
-        return "Transactions{" +
-                "id=" + id +
-                ", time=" + time +
-                ", postOffice=" + postOffice +
-                ", status=" + status +
-                ", postalItems=" + postalItems +
-                '}';
-    }
+
 }
 

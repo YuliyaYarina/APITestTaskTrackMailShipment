@@ -1,14 +1,16 @@
 package com.example.apitesttasktrackmailshipment.model;
 
-import com.example.apitesttasktrackmailshipment.model.enums.Status;
 import com.example.apitesttasktrackmailshipment.model.enums.Type;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "postal_items")
+@Data
 public class PostalItems {
 
     @Id
@@ -22,17 +24,17 @@ public class PostalItems {
     private String addressRecipient;
 
    @OneToMany(mappedBy = "postalItems")
+   @JsonIgnore
     private List<Transactions> transactions;
 
     private static long postalItemsId = 1;
 
-    public PostalItems(String name, Type type, int indexRecipient, String addressRecipient,  List<Transactions> transactions) {
+    public PostalItems(String name, Type type, int indexRecipient, String addressRecipient) {
         setId(postalItemsId++);
         this.name = name;
         this.type = type;
         this.indexRecipient = indexRecipient;
         this.addressRecipient = addressRecipient;
-        this.transactions = transactions;
     }
 
     public PostalItems() {
@@ -99,15 +101,4 @@ public class PostalItems {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "PostalItems{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                ", indexRecipient=" + indexRecipient +
-                ", addressRecipient='" + addressRecipient + '\'' +
-                ", transactions=" + transactions +
-                '}';
-    }
 }
