@@ -11,5 +11,4 @@ public class ApiTestTaskTrackMailShipmentApplication {
     public static void main(String[] args) {
         SpringApplication.run(ApiTestTaskTrackMailShipmentApplication.class, args);
     }
-
 }

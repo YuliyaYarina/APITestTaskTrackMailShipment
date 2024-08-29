@@ -7,12 +7,12 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
-//@Mapper(
-//        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-//        componentModel = MappingConstants.ComponentModel.SPRING,
-//        unmappedSourcePolicy = ReportingPolicy.IGNORE
-//)
-//public abstract class MappingPostalItems {
-//
-//    public abstract PostalItemsDTO mapToProductDto(PostalItems postalItems);
-//}
+@Mapper(
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedSourcePolicy = ReportingPolicy.IGNORE
+)
+public abstract class MappingPostalItems {
+
+    public abstract PostalItemsDTO mapToProductDto(PostalItems postalItems);
+}
