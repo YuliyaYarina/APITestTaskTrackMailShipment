@@ -45,7 +45,7 @@ public class PostOfficeController {
             tags = "Почтовое отделение"
     )
     @DeleteMapping
-    public ResponseEntity<ResponseEntity<String>> removePostOffice(@RequestParam(name = "идентификатор почтового отправления") Long id) {
+    public ResponseEntity<String> removePostOffice(@RequestParam(name = "идентификатор почтового отправления") Long id) {
         return ResponseEntity.ok(service.removePostOffice(id));
     }
 
