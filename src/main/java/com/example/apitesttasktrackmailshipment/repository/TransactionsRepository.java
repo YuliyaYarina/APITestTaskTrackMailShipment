@@ -15,6 +15,6 @@ public interface TransactionsRepository extends JpaRepository<Transactions, Long
     Optional<Transactions> findLatestById(@Param("id") Long id);
 
  @Query(value = "SELECT * FROM transactions WHERE postal_items_id = :id", nativeQuery = true)
-    Optional<Transactions> findAllById(@Param("id") Long id);
+    List<Transactions> findAllById(@Param("id") Long id);
 
 }

@@ -33,7 +33,6 @@ public class Transactions {
     private static long transactionsId = 1;
 
     public Transactions(PostOffice postOffice, Status status, PostalItems postalItems) {
-        setId(transactionsId++);
         this.postOffice = postOffice;
         this.status = status;
         this.postalItems = postalItems;
@@ -50,28 +49,20 @@ public class Transactions {
         this.id = id;
     }
 
-    public PostOffice getPostOffice() {
-        return postOffice;
-    }
-
-    public void setPostOffice(PostOffice postOffice) {
-        this.postOffice = postOffice;
-    }
-
-    public PostalItems getPostalItems() {
-        return postalItems;
-    }
-
-    public void setPostalItems(PostalItems postalItems) {
-        this.postalItems = postalItems;
-    }
-
     public Instant getTime() {
         return time;
     }
 
     public void setTime(Instant time) {
         this.time = time;
+    }
+
+    public PostOffice getPostOffice() {
+        return postOffice;
+    }
+
+    public void setPostOffice(PostOffice postOffice) {
+        this.postOffice = postOffice;
     }
 
     public Status getStatus() {
@@ -82,6 +73,21 @@ public class Transactions {
         this.status = status;
     }
 
+    public PostalItems getPostalItems() {
+        return postalItems;
+    }
+
+    public void setPostalItems(PostalItems postalItems) {
+        this.postalItems = postalItems;
+    }
+
+    public static long getTransactionsId() {
+        return transactionsId;
+    }
+
+    public static void setTransactionsId(long transactionsId) {
+        Transactions.transactionsId = transactionsId;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,4 +1,4 @@
-package com.example.apitesttasktrackmailshipment.service;
+package com.example.apitesttasktrackmailshipment.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String s) {

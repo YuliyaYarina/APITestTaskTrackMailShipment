@@ -1,6 +1,6 @@
 package com.example.apitesttasktrackmailshipment.controllers;
 
-import com.example.apitesttasktrackmailshipment.dto.TransactionsDTO;
+//import com.example.apitesttasktrackmailshipment.dto.TransactionsDTO;
 import com.example.apitesttasktrackmailshipment.model.PostalItems;
 import com.example.apitesttasktrackmailshipment.model.Transactions;
 import com.example.apitesttasktrackmailshipment.model.enums.Status;
@@ -8,23 +8,25 @@ import com.example.apitesttasktrackmailshipment.model.enums.Type;
 import com.example.apitesttasktrackmailshipment.service.PostOfficeService;
 import com.example.apitesttasktrackmailshipment.service.PostalItemsService;
 import com.example.apitesttasktrackmailshipment.service.TransactionsService;
+//import com.example.apitesttasktrackmailshipment.utils.TransactionDTOMapping;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RequestMapping("postalItems")
 @RestController
 public class PostalItemsController {
 
-    private PostalItemsService service;
-    private PostOfficeService officeService;
-    private TransactionsService transactionsService;
+    private final PostalItemsService service;
+    private final PostOfficeService officeService;
+    private final TransactionsService transactionsService;
+//    private final TransactionDTOMapping mapping;
+//    private MappingTransactions mapping;
 
     private Logger logger = LoggerFactory.getLogger(PostalItemsController.class);
 
@@ -32,6 +34,7 @@ public class PostalItemsController {
         this.service = service;
         this.officeService = officeService;
         this.transactionsService = transactionsService;
+//        this.mapping = mapping;
     }
 
     @Operation(
@@ -90,11 +93,15 @@ public class PostalItemsController {
             )
     )
     @GetMapping("/{id}")
-    public ResponseEntity<Object> viewingStatusAndMovementsPostalItem(@PathVariable Long id) {
+    public ResponseEntity<List<Transactions>> viewingStatusAndMovementsPostalItem(@PathVariable Long id) {
 
-        System.out.println(transactionsService.findAllById(id));
-        System.out.println(transactionsService.getLatestRecordById(id));
-        return ResponseEntity.ok(Collections.singletonList(transactionsService.findAllById(id)));
+//        System.out.println(transactionsService.findAllById(id));
+//        System.out.println(transactionsService.getLatestRecordById(id));
+        return ResponseEntity.ok(transactionsService.findAllById(id)
+//                .stream()
+//                .map(it -> mapping.mapToDTO(it))
+//                .collect(Collectors.toList())
+        );
     }
 }
 

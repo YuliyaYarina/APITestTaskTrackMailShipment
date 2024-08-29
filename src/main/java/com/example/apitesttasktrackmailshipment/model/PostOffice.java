@@ -3,6 +3,8 @@ package com.example.apitesttasktrackmailshipment.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,12 +23,17 @@ public class PostOffice {
     @JsonIgnore
     private List<Transactions> transactions;
 
+    @Getter
     private static long postOfficeId = 1;
 
     public PostOffice(int index, String name, String address) {
         setId(postOfficeId++);
         this.index = index;
         this.name = name;
+        this.address = address;
+    }
+
+    public PostOffice(String address) {
         this.address = address;
     }
 
@@ -37,29 +44,28 @@ public class PostOffice {
         return id;
     }
 
-    public Long setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-        return id;
     }
 
     public int getIndex() {
         return index;
     }
 
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     public String getName() {
         return name;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setIndex(int postIdex) {
-        this.index = postIdex;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public void setAddress(String address) {
