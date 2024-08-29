@@ -9,7 +9,6 @@ import java.util.Objects;
 @Data
 //@JsonSerialize
 public class TransactionsDTO {
-//    private long id;
     private Instant time;
     private String postOfficeAdress;
     private Status status;
@@ -19,21 +18,11 @@ public class TransactionsDTO {
     }
 
     public TransactionsDTO( Instant time, String postOfficeAdress, Status status, long postalItemsId) {
-
         this.time = time;
         this.postOfficeAdress = postOfficeAdress;
         this.status = status;
         this.postalItemsId = postalItemsId;
     }
-
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
-
     public Instant getTime() {
         return time;
     }

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequestMapping("postalItems")
@@ -57,7 +58,6 @@ public class PostalItemsController {
         transactions.setPostOffice(officeService.findById(idPostOffice));
         transactionsService.save(transactions);
 
-
         return ResponseEntity.ok().build();
     }
 
@@ -82,21 +82,27 @@ public class PostalItemsController {
 
     @Operation(
             summary = "просмотр статуса и полной истории движения почтового отправления",
-            tags = "Операции с почтовым отправлением",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "идентификатор почтового отправления"
-            )
+            tags = "Операции с почтовым отправлением"
     )
     @GetMapping("/{id}")
-    public ResponseEntity<List<TransactionsDTO>> viewingStatusAndMovementsPostalItem(@PathVariable Long id) {
+    public ResponseEntity<List<TransactionsDTO>> viewingStatusAndMovementsPostalItem(@RequestParam("идентификатор почтового отправления") Long id) {
 
-//        System.out.println(transactionsService.findAllById(id));
-//        System.out.println(transactionsService.getLatestRecordById(id));
+        viewingStatus(id);
         return ResponseEntity.ok(transactionsService.findAllById(id)
                 .stream()
                 .map(mapping::mapToDTO)
                 .collect(Collectors.toList())
         );
+    }
+    @Operation(
+            summary = "просмотр статуса",
+            tags = "Операции с почтовым отправлением"
+    )
+    @GetMapping("/{id}/status")
+    public Optional<TransactionsDTO> viewingStatus(@PathVariable Long id) {
+        return transactionsService.findByIdStatus(id).stream()
+                .map(mapping::mapToDTO)
+                .findFirst();
     }
 }
 
