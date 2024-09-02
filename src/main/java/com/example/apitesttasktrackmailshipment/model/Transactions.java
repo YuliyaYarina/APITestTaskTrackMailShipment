@@ -2,20 +2,25 @@ package com.example.apitesttasktrackmailshipment.model;
 
 import com.example.apitesttasktrackmailshipment.model.enums.Status;
 import jakarta.persistence.*;
+import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-@Table(name = "transactions")
+@Data
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private ZonedDateTime time;
+
+    @CreationTimestamp(source = SourceType.DB)
+    private Instant time;
 
     @ManyToOne
-    @JoinColumn(name = "postal_office_id")
+    @JoinColumn(name = "post_office_id")
     private PostOffice postOffice;
 
     @Enumerated(EnumType.STRING)
@@ -27,9 +32,7 @@ public class Transactions {
 
     private static long transactionsId = 1;
 
-    public Transactions( ZonedDateTime time, PostOffice postOffice, Status status, PostalItems postalItems) {
-        setId(transactionsId);
-        this.time = time;
+    public Transactions(PostOffice postOffice, Status status, PostalItems postalItems) {
         this.postOffice = postOffice;
         this.status = status;
         this.postalItems = postalItems;
@@ -46,28 +49,20 @@ public class Transactions {
         this.id = id;
     }
 
+    public Instant getTime() {
+        return time;
+    }
+
+    public void setTime(Instant time) {
+        this.time = time;
+    }
+
     public PostOffice getPostOffice() {
         return postOffice;
     }
 
     public void setPostOffice(PostOffice postOffice) {
         this.postOffice = postOffice;
-    }
-
-    public PostalItems getPostalItems() {
-        return postalItems;
-    }
-
-    public void setPostalItems(PostalItems postalItems) {
-        this.postalItems = postalItems;
-    }
-
-    public ZonedDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(ZonedDateTime time) {
-        this.time = time;
     }
 
     public Status getStatus() {
@@ -78,6 +73,21 @@ public class Transactions {
         this.status = status;
     }
 
+    public PostalItems getPostalItems() {
+        return postalItems;
+    }
+
+    public void setPostalItems(PostalItems postalItems) {
+        this.postalItems = postalItems;
+    }
+
+    public static long getTransactionsId() {
+        return transactionsId;
+    }
+
+    public static void setTransactionsId(long transactionsId) {
+        Transactions.transactionsId = transactionsId;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -92,15 +102,6 @@ public class Transactions {
         return Objects.hash(time, postOffice, status, postalItems);
     }
 
-    @Override
-    public String toString() {
-        return "Transactions{" +
-                "id=" + id +
-                ", time=" + time +
-                ", postOffice=" + postOffice +
-                ", status=" + status +
-                ", postalItems=" + postalItems +
-                '}';
-    }
+
 }
 

@@ -1,10 +1,13 @@
 package com.example.apitesttasktrackmailshipment.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;
 @Entity
+@Data
 public class PostOffice {
 
     @Id
@@ -15,14 +18,18 @@ public class PostOffice {
     private String address;
 
     @OneToMany(mappedBy = "postOffice")
+    @JsonIgnore
     private List<Transactions> transactions;
 
     private static long postOfficeId = 1;
 
     public PostOffice(int index, String name, String address) {
-//        setId(postOfficeId++);
         this.index = index;
         this.name = name;
+        this.address = address;
+    }
+
+    public PostOffice(String address) {
         this.address = address;
     }
 
@@ -41,20 +48,20 @@ public class PostOffice {
         return index;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
     public void setIndex(int index) {
         this.index = index;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public void setAddress(String address) {
@@ -67,10 +74,6 @@ public class PostOffice {
 
     public void setTransactions(List<Transactions> transactions) {
         this.transactions = transactions;
-    }
-
-    public static long getPostOfficeId() {
-        return postOfficeId;
     }
 
     public static void setPostOfficeId(long postOfficeId) {
@@ -90,14 +93,5 @@ public class PostOffice {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "PostOffice{" +
-                "id=" + id +
-                ", index=" + index +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", transactions=" + transactions +
-                '}';
-    }
+
 }

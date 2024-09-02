@@ -1,14 +1,16 @@
 package com.example.apitesttasktrackmailshipment.model;
 
-import com.example.apitesttasktrackmailshipment.model.enums.Status;
 import com.example.apitesttasktrackmailshipment.model.enums.Type;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "postal_items")
+@Data
 public class PostalItems {
 
     @Id
@@ -21,22 +23,18 @@ public class PostalItems {
     private int indexRecipient ;
     private String addressRecipient;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
    @OneToMany(mappedBy = "postalItems")
+   @JsonIgnore
     private List<Transactions> transactions;
 
     private static long postalItemsId = 1;
 
-    public PostalItems(String name, Type type, int indexRecipient, String addressRecipient, Status status, List<Transactions> transactions) {
-//        setId(postalItemsId++);
+    public PostalItems(String name, Type type, int indexRecipient, String addressRecipient) {
+        setId(postalItemsId++);
         this.name = name;
         this.type = type;
         this.indexRecipient = indexRecipient;
         this.addressRecipient = addressRecipient;
-        this.status = status;
-        this.transactions = transactions;
     }
 
     public PostalItems() {
@@ -54,28 +52,28 @@ public class PostalItems {
         return name;
     }
 
-    public Type getType() {
-        return type;
-    }
-
-    public int getIndexRecipient() {
-        return indexRecipient;
-    }
-
-    public String getAddressRecipient() {
-        return addressRecipient;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public void setType(Type type) {
         this.type = type;
     }
 
+    public int getIndexRecipient() {
+        return indexRecipient;
+    }
+
     public void setIndexRecipient(int indexRecipient) {
         this.indexRecipient = indexRecipient;
+    }
+
+    public String getAddressRecipient() {
+        return addressRecipient;
     }
 
     public void setAddressRecipient(String addressRecipient) {
@@ -103,16 +101,4 @@ public class PostalItems {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "PostalItems{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                ", indexRecipient=" + indexRecipient +
-                ", addressRecipient='" + addressRecipient + '\'' +
-                ", status=" + status +
-                ", transactions=" + transactions +
-                '}';
-    }
 }
