@@ -12,17 +12,16 @@ public class PostOfficeService {
 
     private final PostOfficeRepository repository;
 
-
     public PostOfficeService(PostOfficeRepository repository) {
         this.repository = repository;
     }
 
-    public ResponseEntity<String> removePostOffice(Long id) {
+    public String removePostOffice(Long id) {
        if (repository.findById(id).isPresent()){
            repository.deleteById(id);
-           return ResponseEntity.ok("Отделение успешно удалено");
-       }
-        return ResponseEntity.ok("Такого отделения нет");
+           return "Отделение успешно удалено";
+       }else
+        return "Такого отделения нет";
     }
 
     public ResponseEntity<PostOffice> save(PostOffice postOffice) {
